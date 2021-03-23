@@ -11,6 +11,14 @@ public class GeneralSensorEventHandler implements SensorEventHandler {
     private final SensorEvent event;
     private List<SensorEventHandler> handlers;
 
+    public SensorEvent getEvent() {
+        return event;
+    }
+
+    public SmartHome getSmartHome() {
+        return smartHome;
+    }
+
     public GeneralSensorEventHandler(SmartHome smartHome, SensorEvent event) {
         this.smartHome = smartHome;
         this.event = event;

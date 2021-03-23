@@ -2,6 +2,7 @@ package ru.sbt.mipt.oop;
 
 import ru.sbt.mipt.oop.handlers.GeneralSensorEventHandler;
 import ru.sbt.mipt.oop.handlers.SensorEventHandler;
+import ru.sbt.mipt.oop.handlers.decorators.AlarmSensorEventDecorator;
 import ru.sbt.mipt.oop.sensors.SensorEvent;
 
 public class EventProcessor {
@@ -13,8 +14,11 @@ public class EventProcessor {
 
     public void processEvent(SensorEvent event) {
         System.out.println("Got event: " + event);
-        SensorEventHandler sensorEventHandler = new GeneralSensorEventHandler(smartHome, event);
+        SensorEventHandler sensorEventHandler = new AlarmSensorEventDecorator(new GeneralSensorEventHandler(smartHome, event));
+
+//        AlarmSensorEventDecorator alarmSensorEventDecorator = new AlarmSensorEventDecorator(sensorEventHandler);
 
         sensorEventHandler.handleEvent();
+//        alarmSensorEventDecorator.handleEvent();
     }
 }
