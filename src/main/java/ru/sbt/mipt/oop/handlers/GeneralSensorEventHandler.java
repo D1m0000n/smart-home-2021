@@ -26,5 +26,6 @@ public class GeneralSensorEventHandler implements SensorEventHandler{
         handlers = new ArrayList<>();
         handlers.add(new LightSensorEventHandler(smartHome, event));
         handlers.add(new DoorSensorEventHandler(smartHome, event));
+        handlers.add(new HallDoorSensorEventHandler(smartHome, event));
     }
 }

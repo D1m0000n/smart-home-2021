@@ -12,13 +12,11 @@ import static ru.sbt.mipt.oop.sensors.SensorEventType.LIGHT_OFF;
 import static ru.sbt.mipt.oop.sensors.SensorEventType.LIGHT_ON;
 
 public class LightSensorEventHandler implements SensorEventHandler {
-    private final Collection<Room> rooms;
     private final SensorEvent event;
     private final SmartHome smartHome;
 
     public LightSensorEventHandler(SmartHome smartHome, SensorEvent event) {
         this.smartHome = smartHome;
-        this.rooms = smartHome.getRooms();
         this.event = event;
     }
 

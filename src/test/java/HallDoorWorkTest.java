@@ -8,10 +8,13 @@ import ru.sbt.mipt.oop.readers.SmartHomeReader;
 import ru.sbt.mipt.oop.sensors.SensorEvent;
 import ru.sbt.mipt.oop.sensors.SensorEventType;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DoorWorkTest {
+public class HallDoorWorkTest {
 
     public static class DoorFinder implements Action {
         private Door foundDoor;
@@ -36,6 +39,26 @@ public class DoorWorkTest {
         }
     }
 
+    public static class LightsFinder implements Action {
+        private Collection<Light> foundLights;
+
+        public LightsFinder() {
+            foundLights = new ArrayList<>();
+        }
+
+        @Override
+        public void doAction(HomeComponent component) {
+            if (component instanceof Light) {
+                Light light = (Light) component;
+                foundLights.add(light);
+            }
+        }
+
+        public Collection<Light> getFoundLights() {
+            return foundLights;
+        }
+    }
+
     private static SmartHome smartHome;
 
     @BeforeAll
@@ -47,37 +70,38 @@ public class DoorWorkTest {
 
     @Test
     public void doorClosedWork() {
-        DoorFinder doorFinder = new DoorFinder("1");
-        smartHome.doAction(doorFinder);
-        Door door = doorFinder.getFoundDoor();
 
-        assertFalse(door.isOpen());
     }
 
     @Test
     public void doorOpenedWork() {
-        DoorFinder doorFinder = new DoorFinder("3");
-        smartHome.doAction(doorFinder);
-        Door door = doorFinder.getFoundDoor();
 
-        assertTrue(door.isOpen());
     }
 
     @Test
     public void doorSwitchWork() {
-        SensorEvent doorSwitch = new SensorEvent(SensorEventType.DOOR_CLOSED,"3");
-        SensorEventHandler eventHandler = new DoorSensorEventHandler(smartHome, doorSwitch);
+        SensorEvent hallDoorOpenEvent = new SensorEvent(SensorEventType.DOOR_OPEN,"4");
+        SensorEventHandler eventHandler = new DoorSensorEventHandler(smartHome, hallDoorOpenEvent);
         eventHandler.handleEvent();
 
-        DoorFinder doorFinder = new DoorFinder("3");
+        DoorFinder doorFinder = new DoorFinder("4");
         smartHome.doAction(doorFinder);
-        Door door = doorFinder.getFoundDoor();
+        Door hallDoor = doorFinder.getFoundDoor();
 
-        assertFalse(door.isOpen());
+        // проверяем, открыли ли дверь
+        assertTrue(hallDoor.isOpen());
 
-        // возвращаем дверь в исходное состояние
-        SensorEvent doorSwitchBack = new SensorEvent(SensorEventType.DOOR_OPEN,"3");
-        eventHandler = new DoorSensorEventHandler(smartHome, doorSwitchBack);
+        SensorEvent hallDoorCloseEvent = new SensorEvent(SensorEventType.DOOR_CLOSED,"4");
+        eventHandler = new DoorSensorEventHandler(smartHome, hallDoorCloseEvent);
         eventHandler.handleEvent();
+
+        // проверяем, закрыли ли дверь
+        assertFalse(hallDoor.isOpen());
+
+        LightsFinder lightsFinder = new LightsFinder();
+        Collection<Light> lights = lightsFinder.getFoundLights();
+
+        // проверяем, выключился ли везде свет
+        lights.forEach(light -> assertFalse(light.isOn()));
     }
 }

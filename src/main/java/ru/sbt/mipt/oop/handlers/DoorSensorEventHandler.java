@@ -9,12 +9,10 @@ import static ru.sbt.mipt.oop.sensors.SensorEventType.DOOR_CLOSED;
 import static ru.sbt.mipt.oop.sensors.SensorEventType.DOOR_OPEN;
 
 public class DoorSensorEventHandler implements SensorEventHandler {
-    private final Collection<Room> rooms;
     private final SensorEvent event;
     private final SmartHome smartHome;
 
     public DoorSensorEventHandler(SmartHome smartHome, SensorEvent event) {
-        this.rooms = smartHome.getRooms();
         this.event = event;
         this.smartHome = smartHome;
     }
@@ -30,20 +28,20 @@ public class DoorSensorEventHandler implements SensorEventHandler {
         boolean openResult = (event.getType() == DOOR_OPEN);
         String eventId = event.getObjectId();
         
-        Action lightOffAction = (o)->{
-            if (o instanceof Light) {
-                Light light = (Light) o;
-                light.setOn(false);
-            }
-        };
+//        Action lightOffAction = (o)->{
+//            if (o instanceof Light) {
+//                Light light = (Light) o;
+//                light.setOn(false);
+//            }
+//        };
         
         Action doorAction = (o)-> {
-            if (o instanceof Room) {
-                Room room = (Room) o;
-                if (room.getName().equals("hall")) {
-                    smartHome.doAction(lightOffAction);
-                }
-            }
+//            if (o instanceof Room) {
+//                Room room = (Room) o;
+//                if (room.getName().equals("hall")) {
+//                    smartHome.doAction(lightOffAction);
+//                }
+//            }
             if (o instanceof Door) {
                 Door door = (Door) o;
                 if (door.getId().equals(eventId)) {

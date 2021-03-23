@@ -1,6 +1,6 @@
 package ru.sbt.mipt.oop;
 
-public class Light implements Actionable, HomeComponent{
+public class Light implements Actionable, HomeComponent {
     private boolean isOn;
     private final String id;
 

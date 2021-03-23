@@ -4,10 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import ru.sbt.mipt.oop.CommandType;
-import ru.sbt.mipt.oop.Light;
-import ru.sbt.mipt.oop.Room;
-import ru.sbt.mipt.oop.SmartHome;
+import ru.sbt.mipt.oop.*;
 import ru.sbt.mipt.oop.handlers.LightSensorEventHandler;
 import ru.sbt.mipt.oop.handlers.SensorEventHandler;
 import ru.sbt.mipt.oop.readers.JSONSmartHomeReader;
@@ -18,6 +15,30 @@ import ru.sbt.mipt.oop.sensors.SensorEventType;
 import java.io.File;
 
 public class LightWorkTest {
+
+    public static class LightFinder implements Action {
+        private Light foundLight;
+        private final String id;
+
+        public LightFinder(String id) {
+            this.id = id;
+        }
+
+        @Override
+        public void doAction(HomeComponent component) {
+            if (component instanceof Light) {
+                Light light = (Light) component;
+                if (light.getId().equals(id)) {
+                    foundLight = light;
+                }
+            }
+        }
+
+        public Light getFoundLight() {
+            return foundLight;
+        }
+    }
+
     private static SmartHome smartHome;
 
     @BeforeAll
@@ -29,13 +50,17 @@ public class LightWorkTest {
 
     @Test
     public void lightOffWork() {
-        Light light = getLight("1");
+        LightFinder lightFinder = new LightFinder("1");
+        smartHome.doAction(lightFinder);
+        Light light = lightFinder.getFoundLight();
         assertFalse(light.isOn());
     }
 
     @Test
     public void lightOnWork() {
-        Light light = getLight("3");
+        LightFinder lightFinder = new LightFinder("3");
+        smartHome.doAction(lightFinder);
+        Light light = lightFinder.getFoundLight();
         assertTrue(light.isOn());
     }
 
@@ -45,19 +70,10 @@ public class LightWorkTest {
         SensorEventHandler eventHandler = new LightSensorEventHandler(smartHome, lightSwitch);
         eventHandler.handleEvent();
 
-        Light light = getLight("3");
-        assertFalse(light.isOn());
-    }
+        LightFinder lightFinder = new LightFinder("3");
+        smartHome.doAction(lightFinder);
+        Light light = lightFinder.getFoundLight();
 
-    private Light getLight(String lightId) {
-        Light lightResult = null;
-        for (Room room : smartHome.getRooms()) {
-            for (Light light : room.getLights()) {
-                if (light.getId().equals(lightId)) {
-                    lightResult = light;
-                }
-            }
-        }
-        return lightResult;
+        assertFalse(light.isOn());
     }
 }
