@@ -27,21 +27,8 @@ public class DoorSensorEventHandler implements SensorEventHandler {
         // представим, что мы не пытаемся открыть открытую дверь)
         boolean openResult = (event.getType() == DOOR_OPEN);
         String eventId = event.getObjectId();
-        
-//        Action lightOffAction = (o)->{
-//            if (o instanceof Light) {
-//                Light light = (Light) o;
-//                light.setOn(false);
-//            }
-//        };
-        
-        Action doorAction = (o)-> {
-//            if (o instanceof Room) {
-//                Room room = (Room) o;
-//                if (room.getName().equals("hall")) {
-//                    smartHome.doAction(lightOffAction);
-//                }
-//            }
+
+        Action doorAction = (o) -> {
             if (o instanceof Door) {
                 Door door = (Door) o;
                 if (door.getId().equals(eventId)) {

@@ -2,6 +2,7 @@ package ru.sbt.mipt.oop.handlers;
 
 import ru.sbt.mipt.oop.*;
 import ru.sbt.mipt.oop.sensors.SensorEvent;
+
 import static ru.sbt.mipt.oop.sensors.SensorEventType.DOOR_CLOSED;
 
 
@@ -22,14 +23,14 @@ public class HallDoorSensorEventHandler implements SensorEventHandler {
             return;
         }
 
-        Action lightOffAction = (o)->{
+        Action lightOffAction = (o) -> {
             if (o instanceof Light) {
                 Light light = (Light) o;
                 light.setOn(false);
             }
         };
 
-        Action hallDoorAction = (o)-> {
+        Action hallDoorAction = (o) -> {
             if (o instanceof Room) {
                 Room room = (Room) o;
                 if (room.getName().equals("hall")) {

@@ -80,7 +80,7 @@ public class HallDoorWorkTest {
 
     @Test
     public void doorSwitchWork() {
-        SensorEvent hallDoorOpenEvent = new SensorEvent(SensorEventType.DOOR_OPEN,"4");
+        SensorEvent hallDoorOpenEvent = new SensorEvent(SensorEventType.DOOR_OPEN, "4");
         SensorEventHandler eventHandler = new DoorSensorEventHandler(smartHome, hallDoorOpenEvent);
         eventHandler.handleEvent();
 
@@ -91,7 +91,7 @@ public class HallDoorWorkTest {
         // проверяем, открыли ли дверь
         assertTrue(hallDoor.isOpen());
 
-        SensorEvent hallDoorCloseEvent = new SensorEvent(SensorEventType.DOOR_CLOSED,"4");
+        SensorEvent hallDoorCloseEvent = new SensorEvent(SensorEventType.DOOR_CLOSED, "4");
         eventHandler = new DoorSensorEventHandler(smartHome, hallDoorCloseEvent);
         eventHandler.handleEvent();
 

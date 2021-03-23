@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -66,7 +67,7 @@ public class LightWorkTest {
 
     @Test
     public void lightSwitchWork() {
-        SensorEvent lightSwitch = new SensorEvent(SensorEventType.LIGHT_OFF,"3");
+        SensorEvent lightSwitch = new SensorEvent(SensorEventType.LIGHT_OFF, "3");
         SensorEventHandler eventHandler = new LightSensorEventHandler(smartHome, lightSwitch);
         eventHandler.handleEvent();
 

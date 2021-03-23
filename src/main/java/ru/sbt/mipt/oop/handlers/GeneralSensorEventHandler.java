@@ -6,7 +6,7 @@ import ru.sbt.mipt.oop.sensors.SensorEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeneralSensorEventHandler implements SensorEventHandler{
+public class GeneralSensorEventHandler implements SensorEventHandler {
     private final SmartHome smartHome;
     private final SensorEvent event;
     private List<SensorEventHandler> handlers;
