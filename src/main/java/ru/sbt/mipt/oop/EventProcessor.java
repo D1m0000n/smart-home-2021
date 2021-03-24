@@ -15,10 +15,6 @@ public class EventProcessor {
     public void processEvent(SensorEvent event) {
         System.out.println("Got event: " + event);
         SensorEventHandler sensorEventHandler = new AlarmSensorEventDecorator(new GeneralSensorEventHandler(smartHome, event));
-
-//        AlarmSensorEventDecorator alarmSensorEventDecorator = new AlarmSensorEventDecorator(sensorEventHandler);
-
         sensorEventHandler.handleEvent();
-//        alarmSensorEventDecorator.handleEvent();
     }
 }

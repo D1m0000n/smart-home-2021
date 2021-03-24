@@ -2,9 +2,7 @@ package ru.sbt.mipt.oop.handlers.decorators;
 
 import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.handlers.GeneralSensorEventHandler;
-import ru.sbt.mipt.oop.handlers.SensorEventHandler;
 import ru.sbt.mipt.oop.sensors.SensorEvent;
-import ru.sbt.mipt.oop.sensors.SensorEventType;
 import ru.sbt.mipt.oop.sensors.alarm.AlarmSensorEvent;
 import ru.sbt.mipt.oop.sensors.alarm.states.AlarmState;
 
@@ -28,9 +26,12 @@ public class AlarmSensorEventDecorator extends SensorEventHandlerDecorator {
     @Override
     public void handleEvent() {
         beforeHandleEvent();
+        boolean ignoreEvent = alarmState.ignoreEvent;
         if (!isAlarmAction) {
             alarmState.trigger();
-            wrappedEventHandler.handleEvent();
+            if (!ignoreEvent) { // важно, что сигнализация должна выполнить действие(если включена),
+                wrappedEventHandler.handleEvent(); // и только потом включить режим тревоги
+            }
         }
     }
 

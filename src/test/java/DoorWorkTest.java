@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ru.sbt.mipt.oop.*;
+import ru.sbt.mipt.oop.Action;
+import ru.sbt.mipt.oop.Door;
+import ru.sbt.mipt.oop.HomeComponent;
+import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.handlers.DoorSensorEventHandler;
 import ru.sbt.mipt.oop.handlers.SensorEventHandler;
 import ru.sbt.mipt.oop.readers.JSONSmartHomeReader;

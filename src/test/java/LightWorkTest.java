@@ -1,11 +1,9 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import ru.sbt.mipt.oop.*;
+import ru.sbt.mipt.oop.Action;
+import ru.sbt.mipt.oop.HomeComponent;
+import ru.sbt.mipt.oop.Light;
+import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.handlers.LightSensorEventHandler;
 import ru.sbt.mipt.oop.handlers.SensorEventHandler;
 import ru.sbt.mipt.oop.readers.JSONSmartHomeReader;
@@ -13,7 +11,8 @@ import ru.sbt.mipt.oop.readers.SmartHomeReader;
 import ru.sbt.mipt.oop.sensors.SensorEvent;
 import ru.sbt.mipt.oop.sensors.SensorEventType;
 
-import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LightWorkTest {
 

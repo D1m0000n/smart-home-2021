@@ -1,11 +1,12 @@
 package ru.sbt.mipt.oop.sensors.alarm.states;
 
 import ru.sbt.mipt.oop.SmartHome;
-import ru.sbt.mipt.oop.sensors.SensorEvent;
 
 public class AlarmStateActivated extends AlarmState {
+
     public AlarmStateActivated(SmartHome smartHome, String code) {
         super(smartHome, code);
+        this.ignoreEvent = false;
     }
 
     @Override
@@ -20,6 +21,7 @@ public class AlarmStateActivated extends AlarmState {
             state = new AlarmStateDeactivated(smartHome, code);
         } else {
             state = new AlarmStateAlert(smartHome, code);
+            sendSMS();
         }
         smartHome.setState(state);
     }

@@ -2,11 +2,8 @@ package ru.sbt.mipt.oop.handlers;
 
 import ru.sbt.mipt.oop.Action;
 import ru.sbt.mipt.oop.Light;
-import ru.sbt.mipt.oop.Room;
 import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.sensors.SensorEvent;
-
-import java.util.Collection;
 
 import static ru.sbt.mipt.oop.sensors.SensorEventType.LIGHT_OFF;
 import static ru.sbt.mipt.oop.sensors.SensorEventType.LIGHT_ON;

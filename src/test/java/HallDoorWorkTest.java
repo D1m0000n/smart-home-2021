@@ -69,16 +69,6 @@ public class HallDoorWorkTest {
     }
 
     @Test
-    public void doorClosedWork() {
-
-    }
-
-    @Test
-    public void doorOpenedWork() {
-
-    }
-
-    @Test
     public void doorSwitchWork() {
         SensorEvent hallDoorOpenEvent = new SensorEvent(SensorEventType.DOOR_OPEN, "4");
         SensorEventHandler eventHandler = new DoorSensorEventHandler(smartHome, hallDoorOpenEvent);

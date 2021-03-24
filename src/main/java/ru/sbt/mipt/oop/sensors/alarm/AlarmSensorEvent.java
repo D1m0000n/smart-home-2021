@@ -6,8 +6,8 @@ import ru.sbt.mipt.oop.sensors.SensorEventType;
 public class AlarmSensorEvent extends SensorEvent {
     private final String alarmCode;
 
-    public AlarmSensorEvent(SensorEventType type, String objectId, String alarmCode) {
-        super(type, objectId);
+    public AlarmSensorEvent(SensorEventType type, String alarmCode) {
+        super(type, "0");
         this.alarmCode = alarmCode;
     }
 
