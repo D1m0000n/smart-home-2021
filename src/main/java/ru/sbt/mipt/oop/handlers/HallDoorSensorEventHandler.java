@@ -23,6 +23,8 @@ public class HallDoorSensorEventHandler implements SensorEventHandler {
             return;
         }
 
+        String evendId = event.getObjectId();
+
         Action lightOffAction = (o) -> {
             if (o instanceof Light) {
                 Light light = (Light) o;
@@ -30,11 +32,20 @@ public class HallDoorSensorEventHandler implements SensorEventHandler {
             }
         };
 
+        Action checkDoorId = (o) -> {
+            if (o instanceof Door) {
+                Door door = (Door) o;
+                if (door.getId().equals(evendId)) {
+                    smartHome.doAction(lightOffAction);
+                }
+            }
+        };
+
         Action hallDoorAction = (o) -> {
             if (o instanceof Room) {
                 Room room = (Room) o;
                 if (room.getName().equals("hall")) {
-                    smartHome.doAction(lightOffAction);
+                    smartHome.doAction(checkDoorId);
                 }
             }
         };
