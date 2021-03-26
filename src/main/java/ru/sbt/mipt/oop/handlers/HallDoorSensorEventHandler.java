@@ -45,7 +45,7 @@ public class HallDoorSensorEventHandler implements SensorEventHandler {
             if (o instanceof Room) {
                 Room room = (Room) o;
                 if (room.getName().equals("hall")) {
-                    smartHome.doAction(checkDoorId);
+                    room.doAction(checkDoorId);
                 }
             }
         };
