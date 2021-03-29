@@ -28,22 +28,22 @@ public class AlarmStateAlert extends AlarmState {
 
     @Override
     public void trigger() {
-        sendSMS();
-        flashingLight();
+//        sendSMS();
+//        flashingLight();
     }
 
-    private void flashingLight() {
-        Action lightSwitch = (component) -> {
-            if (component instanceof Light) {
-                Light light = (Light) component;
-                boolean switchLightState = !light.isOn();
-
-                // имитируем моргание лампочки
-                light.setOn(switchLightState);
-                light.setOn(!switchLightState);
-            }
-        };
-
-        smartHome.doAction(lightSwitch);
-    }
+//    private void flashingLight() {
+//        Action lightSwitch = (component) -> {
+//            if (component instanceof Light) {
+//                Light light = (Light) component;
+//                boolean switchLightState = !light.isOn();
+//
+//                // имитируем моргание лампочки
+//                light.setOn(switchLightState);
+//                light.setOn(!switchLightState);
+//            }
+//        };
+//
+//        smartHome.doAction(lightSwitch);
+//    }
 }
