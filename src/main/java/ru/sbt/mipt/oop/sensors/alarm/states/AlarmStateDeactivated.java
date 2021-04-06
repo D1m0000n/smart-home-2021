@@ -1,6 +1,7 @@
 package ru.sbt.mipt.oop.sensors.alarm.states;
 
 import ru.sbt.mipt.oop.SmartHome;
+import ru.sbt.mipt.oop.senders.MessageSender;
 
 import java.util.Objects;
 
@@ -20,21 +21,19 @@ public class AlarmStateDeactivated extends AlarmState {
         return Objects.hash(smartHome, ignoreEvent);
     }
 
-    public AlarmStateDeactivated(SmartHome smartHome, String code) {
-        super(smartHome, code);
+    public AlarmStateDeactivated(SmartHome smartHome, String code, MessageSender sender) {
+        super(smartHome, code, sender);
         this.ignoreEvent = false;
     }
 
     @Override
     public void activate(String code) {
-        AlarmState alarmState = new AlarmStateActivated(smartHome, code);
+        AlarmState alarmState = new AlarmStateActivated(smartHome, code, sender);
         smartHome.setState(alarmState);
     }
 
     @Override
-    public void deactivate(String code) {
-        throw new RuntimeException("Can't deactivate deactivated alarm");
-    }
+    public void deactivate(String code) {}
 
     @Override
     public void trigger() {

@@ -71,8 +71,8 @@ public class HallDoorWorkTest {
     @Test
     public void doorSwitchWork() {
         SensorEvent hallDoorOpenEvent = new SensorEvent(SensorEventType.DOOR_OPEN, "4");
-        SensorEventHandler eventHandler = new DoorSensorEventHandler(smartHome, hallDoorOpenEvent);
-        eventHandler.handleEvent();
+        SensorEventHandler eventHandler = new DoorSensorEventHandler(smartHome);
+        eventHandler.handleEvent(hallDoorOpenEvent);
 
         DoorFinder doorFinder = new DoorFinder("4");
         smartHome.doAction(doorFinder);
@@ -82,8 +82,8 @@ public class HallDoorWorkTest {
         assertTrue(hallDoor.isOpen());
 
         SensorEvent hallDoorCloseEvent = new SensorEvent(SensorEventType.DOOR_CLOSED, "4");
-        eventHandler = new DoorSensorEventHandler(smartHome, hallDoorCloseEvent);
-        eventHandler.handleEvent();
+        eventHandler = new DoorSensorEventHandler(smartHome);
+        eventHandler.handleEvent(hallDoorCloseEvent);
 
         // проверяем, закрыли ли дверь
         assertFalse(hallDoor.isOpen());

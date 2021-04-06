@@ -1,5 +1,6 @@
 package ru.sbt.mipt.oop;
 
+import ru.sbt.mipt.oop.senders.SMSMessageSender;
 import ru.sbt.mipt.oop.sensors.alarm.states.AlarmState;
 import ru.sbt.mipt.oop.sensors.alarm.states.AlarmStateDeactivated;
 
@@ -8,7 +9,7 @@ import java.util.Collection;
 
 public class SmartHome implements Actionable, HomeComponent {
     Collection<Room> rooms;
-    AlarmState state = new AlarmStateDeactivated(this, "");
+    AlarmState state = new AlarmStateDeactivated(this, "", new SMSMessageSender());
 
     public SmartHome() {
         rooms = new ArrayList<>();

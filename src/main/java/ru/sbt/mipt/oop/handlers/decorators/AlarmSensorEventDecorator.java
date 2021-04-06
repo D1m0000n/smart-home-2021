@@ -13,38 +13,37 @@ import static ru.sbt.mipt.oop.sensors.SensorEventType.ALARM_ACTIVATE;
 import static ru.sbt.mipt.oop.sensors.SensorEventType.ALARM_DEACTIVATE;
 
 public class AlarmSensorEventDecorator extends SensorEventHandlerDecorator {
-    private final SensorEvent event;
+//    private final SensorEvent event;
     private final SmartHome smartHome;
     private final Alarm alarm;
-//    private final AlarmState alarmState;
     private boolean isAlarmAction;
 
     public AlarmSensorEventDecorator(GeneralSensorEventHandler eventHandler) {
         super(eventHandler);
-        this.event = eventHandler.getEvent();
+//        this.event = eventHandler.getEvent();
         this.smartHome = eventHandler.getSmartHome();
-        this.alarm = new Alarm(smartHome, new SMSMessageSender());
+        this.alarm = new Alarm(smartHome);
         this.isAlarmAction = false;
     }
 
     @Override
-    public void handleEvent() {
-        beforeHandleEvent();
+    public void handleEvent(SensorEvent event) {
+        beforeHandleEvent(event);
         boolean ignoreEvent = alarm.ignoreEvent();
         if (!isAlarmAction) {
             alarm.trigger();
             if (!ignoreEvent) { // важно, что сигнализация должна выполнить действие(если включена),
-                wrappedEventHandler.handleEvent(); // и только потом включить режим тревоги
+                wrappedEventHandler.handleEvent(event); // и только потом включить режим тревоги
             }
         }
     }
 
     @Override
-    protected void beforeHandleEvent() {
-        activateDeactivate();
+    protected void beforeHandleEvent(SensorEvent event) {
+        activateDeactivate(event);
     }
 
-    private void activateDeactivate() {
+    private void activateDeactivate(SensorEvent event) {
         if (event.getType() == ALARM_ACTIVATE) {
             AlarmSensorEvent alarmEvent = (AlarmSensorEvent) event;
             alarm.activate(alarmEvent.getAlarmCode());

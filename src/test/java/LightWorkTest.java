@@ -67,8 +67,8 @@ public class LightWorkTest {
     @Test
     public void lightSwitchWork() {
         SensorEvent lightSwitch = new SensorEvent(SensorEventType.LIGHT_OFF, "3");
-        SensorEventHandler eventHandler = new LightSensorEventHandler(smartHome, lightSwitch);
-        eventHandler.handleEvent();
+        SensorEventHandler eventHandler = new LightSensorEventHandler(smartHome);
+        eventHandler.handleEvent(lightSwitch);
 
         LightFinder lightFinder = new LightFinder("3");
         smartHome.doAction(lightFinder);

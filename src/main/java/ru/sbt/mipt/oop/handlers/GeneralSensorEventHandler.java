@@ -8,32 +8,30 @@ import java.util.List;
 
 public class GeneralSensorEventHandler implements SensorEventHandler {
     private final SmartHome smartHome;
-    private final SensorEvent event;
     private List<SensorEventHandler> handlers;
 
-    public SensorEvent getEvent() {
-        return event;
-    }
+//    public SensorEvent getEvent() {
+//        return event;
+//    }
 
     public SmartHome getSmartHome() {
         return smartHome;
     }
 
-    public GeneralSensorEventHandler(SmartHome smartHome, SensorEvent event) {
+    public GeneralSensorEventHandler(SmartHome smartHome) {
         this.smartHome = smartHome;
-        this.event = event;
         setUpHandlers();
     }
 
     @Override
-    public void handleEvent() {
-        handlers.forEach(SensorEventHandler::handleEvent);
+    public void handleEvent(SensorEvent event) {
+        handlers.forEach(sensorEventHandler -> sensorEventHandler.handleEvent(event));
     }
 
     private void setUpHandlers() {
         handlers = new ArrayList<>();
-        handlers.add(new LightSensorEventHandler(smartHome, event));
-        handlers.add(new DoorSensorEventHandler(smartHome, event));
-        handlers.add(new HallDoorSensorEventHandler(smartHome, event));
+        handlers.add(new LightSensorEventHandler(smartHome));
+        handlers.add(new DoorSensorEventHandler(smartHome));
+        handlers.add(new HallDoorSensorEventHandler(smartHome));
     }
 }

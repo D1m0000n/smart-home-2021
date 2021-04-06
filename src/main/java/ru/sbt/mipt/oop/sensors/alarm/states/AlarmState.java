@@ -1,17 +1,20 @@
 package ru.sbt.mipt.oop.sensors.alarm.states;
 
 import ru.sbt.mipt.oop.SmartHome;
+import ru.sbt.mipt.oop.senders.MessageSender;
 
 import java.util.Objects;
 
 public abstract class AlarmState {
-    public AlarmState(SmartHome smartHome, String code) {
+    public AlarmState(SmartHome smartHome, String code, MessageSender sender) {
         this.smartHome = smartHome;
         this.code = code;
+        this.sender = sender;
     }
 
     public final SmartHome smartHome;
     public final String code;
+    public final MessageSender sender;
     public boolean ignoreEvent;
 
     public abstract void activate(String code);
@@ -33,7 +36,7 @@ public abstract class AlarmState {
 
     public abstract void trigger();
 
-    public void sendSMS() {
-        System.out.println("Sending sms");
+    public void sendMessage() {
+        sender.sendMessage();
     }
 }
