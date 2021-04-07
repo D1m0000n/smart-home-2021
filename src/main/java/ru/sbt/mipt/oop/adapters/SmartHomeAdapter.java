@@ -6,11 +6,15 @@ import ru.sbt.mipt.oop.EventProcessor;
 import ru.sbt.mipt.oop.sensors.SensorEvent;
 import ru.sbt.mipt.oop.sensors.SensorEventType;
 
+import java.util.Map;
+
 public class SmartHomeAdapter implements EventHandler {
     private final EventProcessor eventProcessor;
+    private final Map<String, SensorEventType> transformEvents;
 
-    public SmartHomeAdapter(EventProcessor eventProcessor) {
+    public SmartHomeAdapter(EventProcessor eventProcessor, Map<String, SensorEventType> transformEvents) {
         this.eventProcessor = eventProcessor;
+        this.transformEvents = transformEvents;
     }
 
     @Override
@@ -24,25 +28,6 @@ public class SmartHomeAdapter implements EventHandler {
     }
 
     private SensorEventType transformCCSensorEventTypeToSensorEventType(String CCEventType) {
-        SensorEventType eventType;
-        switch (CCEventType) {
-            case ("LightIsOn"):
-                eventType = SensorEventType.LIGHT_ON;
-                break;
-            case ("LightIsOff"):
-                eventType = SensorEventType.LIGHT_OFF;
-                break;
-            case ("DoorIsOpen"):
-            case ("DoorIsUnlocked"):
-                eventType = SensorEventType.DOOR_OPEN;
-                break;
-            case ("DoorIsClosed"):
-            case ("DoorIsLocked"):
-                eventType = SensorEventType.DOOR_CLOSED;
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + CCEventType);
-        }
-        return eventType;
+        return transformEvents.get(CCEventType);
     }
 }

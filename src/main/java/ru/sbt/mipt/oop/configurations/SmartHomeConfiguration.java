@@ -8,6 +8,10 @@ import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.adapters.SmartHomeAdapter;
 import ru.sbt.mipt.oop.readers.JSONSmartHomeReader;
 import ru.sbt.mipt.oop.readers.SmartHomeReader;
+import ru.sbt.mipt.oop.sensors.SensorEventType;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class SmartHomeConfiguration {
@@ -30,7 +34,20 @@ public class SmartHomeConfiguration {
 
     @Bean
     SmartHomeAdapter adapter() {
-        return new SmartHomeAdapter(eventProcessor());
+        Map<String, SensorEventType> transform = transformCCSensorEventTypeToSensorEventType();
+        return new SmartHomeAdapter(eventProcessor(), transform);
+    }
+
+    @Bean
+    Map<String, SensorEventType> transformCCSensorEventTypeToSensorEventType() {
+        Map<String, SensorEventType> transform = new HashMap<>();
+        transform.put("LightIsOn", SensorEventType.LIGHT_ON);
+        transform.put("LightIsOff", SensorEventType.LIGHT_OFF);
+        transform.put("DoorIsOpen", SensorEventType.DOOR_OPEN);
+        transform.put("DoorIsUnlocked", SensorEventType.DOOR_OPEN);
+        transform.put("DoorIsClosed", SensorEventType.DOOR_CLOSED);
+        transform.put("DoorIsLocked", SensorEventType.DOOR_CLOSED);
+        return transform;
     }
 
     @Bean
