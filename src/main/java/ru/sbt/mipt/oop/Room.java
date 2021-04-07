@@ -27,6 +27,7 @@ public class Room implements Actionable, HomeComponent {
 
     @Override
     public void doAction(Action action) {
+        action.doAction(this);
         lights.forEach(light -> light.doAction(action));
         doors.forEach(door -> door.doAction(action));
     }
