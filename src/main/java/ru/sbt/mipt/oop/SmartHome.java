@@ -9,7 +9,7 @@ import java.util.Collection;
 
 public class SmartHome implements Actionable, HomeComponent {
     Collection<Room> rooms;
-    AlarmState state = new AlarmStateDeactivated(this, "", new SMSMessageSender());
+//    AlarmState state = new AlarmStateDeactivated(this, "", new SMSMessageSender());
 
     public SmartHome() {
         rooms = new ArrayList<>();
@@ -29,11 +29,11 @@ public class SmartHome implements Actionable, HomeComponent {
         rooms.forEach(room -> room.doAction(action));
     }
 
-    public void setState(AlarmState state) {
-        this.state = state;
-    }
-
-    public AlarmState getState() {
-        return state;
-    }
+//    public void setState(AlarmState state) {
+//        this.state = state;
+//    }
+//
+//    public AlarmState getState() {
+//        return state;
+//    }
 }

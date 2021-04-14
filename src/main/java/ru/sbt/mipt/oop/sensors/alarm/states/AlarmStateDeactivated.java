@@ -2,38 +2,26 @@ package ru.sbt.mipt.oop.sensors.alarm.states;
 
 import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.senders.MessageSender;
+import ru.sbt.mipt.oop.sensors.alarm.Alarm;
 
 import java.util.Objects;
 
 public class AlarmStateDeactivated extends AlarmState {
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AlarmState state = (AlarmState) o;
-        // в выключенном состоянии, код - фиктивное поле
-        return ignoreEvent == state.ignoreEvent && smartHome.equals(state.smartHome);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(smartHome, ignoreEvent);
-    }
-
-    public AlarmStateDeactivated(SmartHome smartHome, String code, MessageSender sender) {
-        super(smartHome, code, sender);
-        this.ignoreEvent = false;
+    public AlarmStateDeactivated(Alarm alarm, String code, MessageSender sender) {
+        super(alarm, code, sender);
     }
 
     @Override
     public void activate(String code) {
-        AlarmState alarmState = new AlarmStateActivated(smartHome, code, sender);
-        smartHome.setState(alarmState);
+        AlarmState alarmState = new AlarmStateActivated(alarm, code, sender);
+        alarm.setAlarmState(alarmState);
     }
 
     @Override
-    public void deactivate(String code) {}
+    public void deactivate(String code) {
+        throw new RuntimeException("Can't deactivate deactivated alarm");
+    }
 
     @Override
     public void trigger() {

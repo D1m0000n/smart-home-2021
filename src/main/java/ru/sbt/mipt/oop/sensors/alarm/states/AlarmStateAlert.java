@@ -4,22 +4,24 @@ import ru.sbt.mipt.oop.Action;
 import ru.sbt.mipt.oop.Light;
 import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.senders.MessageSender;
+import ru.sbt.mipt.oop.sensors.alarm.Alarm;
 
 public class AlarmStateAlert extends AlarmState {
 
-    public AlarmStateAlert(SmartHome smartHome, String code, MessageSender sender) {
-        super(smartHome, code, sender);
-        this.ignoreEvent = true;
+    public AlarmStateAlert(Alarm alarm, String code, MessageSender sender) {
+        super(alarm, code, sender);
     }
 
     @Override
-    public void activate(String code) {}
+    public void activate(String code) {
+        throw new RuntimeException("Can't activate alarmed alarm");
+    }
 
     @Override
     public void deactivate(String code) {
         if (this.code.equals(code)) {
-            AlarmState state = new AlarmStateDeactivated(smartHome, code, sender);
-            smartHome.setState(state);
+            AlarmState state = new AlarmStateDeactivated(alarm, code, sender);
+            alarm.setAlarmState(state);
         } else {
             trigger();
         }
@@ -43,6 +45,6 @@ public class AlarmStateAlert extends AlarmState {
             }
         };
 
-        smartHome.doAction(lightSwitch);
+        alarm.smartHome.doAction(lightSwitch);
     }
 }

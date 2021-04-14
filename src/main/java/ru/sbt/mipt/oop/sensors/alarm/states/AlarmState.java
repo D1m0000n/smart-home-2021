@@ -2,20 +2,20 @@ package ru.sbt.mipt.oop.sensors.alarm.states;
 
 import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.senders.MessageSender;
+import ru.sbt.mipt.oop.sensors.alarm.Alarm;
 
 import java.util.Objects;
 
 public abstract class AlarmState {
-    public AlarmState(SmartHome smartHome, String code, MessageSender sender) {
-        this.smartHome = smartHome;
+    Alarm alarm;
+    public AlarmState(Alarm alarm, String code, MessageSender sender) {
+        this.alarm = alarm;
         this.code = code;
         this.sender = sender;
     }
 
-    public final SmartHome smartHome;
     public final String code;
     public final MessageSender sender;
-    public boolean ignoreEvent;
 
     public abstract void activate(String code);
 
@@ -24,12 +24,12 @@ public abstract class AlarmState {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AlarmState state = (AlarmState) o;
-        return ignoreEvent == state.ignoreEvent && smartHome.equals(state.smartHome) && Objects.equals(code, state.code);
+        return Objects.equals(code, state.code);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(smartHome, code, ignoreEvent);
+        return Objects.hash(code);
     }
 
     public abstract void deactivate(String code);

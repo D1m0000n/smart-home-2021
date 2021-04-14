@@ -10,7 +10,9 @@ import ru.sbt.mipt.oop.readers.SmartHomeReader;
 import ru.sbt.mipt.oop.senders.SMSMessageSender;
 import ru.sbt.mipt.oop.sensors.SensorEvent;
 import ru.sbt.mipt.oop.sensors.SensorEventType;
+import ru.sbt.mipt.oop.sensors.alarm.Alarm;
 import ru.sbt.mipt.oop.sensors.alarm.AlarmSensorEvent;
+import ru.sbt.mipt.oop.sensors.alarm.states.AlarmState;
 import ru.sbt.mipt.oop.sensors.alarm.states.AlarmStateActivated;
 import ru.sbt.mipt.oop.sensors.alarm.states.AlarmStateAlert;
 import ru.sbt.mipt.oop.sensors.alarm.states.AlarmStateDeactivated;
@@ -33,20 +35,20 @@ public class AlarmWorkTest {
         // setup
         SensorEvent alarmActivationSensorEvent = new AlarmSensorEvent(SensorEventType.ALARM_ACTIVATE, "123");
         // execution
-        SensorEventHandler eventHandler = new AlarmSensorEventDecorator(new GeneralSensorEventHandler(smartHome));
+        AlarmSensorEventDecorator eventHandler = new AlarmSensorEventDecorator(smartHome, new GeneralSensorEventHandler(smartHome));
         eventHandler.handleEvent(alarmActivationSensorEvent);
         // validation
-        assertEquals(smartHome.getState(), new AlarmStateActivated(smartHome, "123", new SMSMessageSender()));
+        Alarm alarm =  eventHandler.alarm;
+        assertEquals(alarm.getAlarmState(), new AlarmStateActivated(alarm, "123", new SMSMessageSender()));
 
         // выключим сигнализацию обратно
 
         // setup
         SensorEvent alarmDeactivationSensorEvent = new AlarmSensorEvent(SensorEventType.ALARM_DEACTIVATE, "123");
         // execution
-        eventHandler = new AlarmSensorEventDecorator(new GeneralSensorEventHandler(smartHome));
         eventHandler.handleEvent(alarmDeactivationSensorEvent);
         // validation
-        assertEquals(smartHome.getState(), new AlarmStateDeactivated(smartHome, "123", new SMSMessageSender()));
+        assertEquals(alarm.getAlarmState(), new AlarmStateDeactivated(alarm, "123", new SMSMessageSender()));
     }
 
     @Test
@@ -54,16 +56,17 @@ public class AlarmWorkTest {
         // setup
         SensorEvent alarmActivationSensorEvent = new AlarmSensorEvent(SensorEventType.ALARM_ACTIVATE, "123");
         // execution
-        SensorEventHandler eventHandler = new AlarmSensorEventDecorator(new GeneralSensorEventHandler(smartHome));
+        AlarmSensorEventDecorator eventHandler = new AlarmSensorEventDecorator(smartHome, new GeneralSensorEventHandler(smartHome));
         eventHandler.handleEvent(alarmActivationSensorEvent);
+        Alarm alarm = eventHandler.alarm;
+
         // validation (включили сигнализацию)
-        assertEquals(smartHome.getState(), new AlarmStateActivated(smartHome, "123", new SMSMessageSender()));
+        assertEquals(alarm.getAlarmState(), new AlarmStateActivated(alarm, "123", new SMSMessageSender()));
 
         // setup
         SensorEvent doorOpenSwitch = new SensorEvent(SensorEventType.DOOR_OPEN, "1");
         HallDoorWorkTest.DoorFinder doorFinder = new HallDoorWorkTest.DoorFinder("1");
         // execution
-        eventHandler = new AlarmSensorEventDecorator(new GeneralSensorEventHandler(smartHome));
         eventHandler.handleEvent(doorOpenSwitch);
         smartHome.doAction(doorFinder);
         Door door = doorFinder.getFoundDoor();
@@ -71,12 +74,11 @@ public class AlarmWorkTest {
         // дверь открыта
         assertTrue(door.isOpen());
         // сигнализация в состоянии тревоги
-        assertEquals(smartHome.getState(), new AlarmStateAlert(smartHome, "123", new SMSMessageSender()));
+        assertEquals(alarm.getAlarmState(), new AlarmStateAlert(alarm, "123", new SMSMessageSender()));
 
         // setup
         SensorEvent doorCloseSwitch = new SensorEvent(SensorEventType.DOOR_CLOSED, "1");
         // execution
-        eventHandler = new AlarmSensorEventDecorator(new GeneralSensorEventHandler(smartHome));
         eventHandler.handleEvent(doorCloseSwitch);
 
         // validation
@@ -87,9 +89,8 @@ public class AlarmWorkTest {
         // setup
         SensorEvent alarmDeactivationSensorEvent = new AlarmSensorEvent(SensorEventType.ALARM_DEACTIVATE, "123");
         // execution
-        eventHandler = new AlarmSensorEventDecorator(new GeneralSensorEventHandler(smartHome));
         eventHandler.handleEvent(alarmDeactivationSensorEvent);
         // validation
-        assertEquals(smartHome.getState(), new AlarmStateDeactivated(smartHome, "123", new SMSMessageSender()));
+        assertEquals(alarm.getAlarmState(), new AlarmStateDeactivated(alarm, "123", new SMSMessageSender()));
     }
 }
