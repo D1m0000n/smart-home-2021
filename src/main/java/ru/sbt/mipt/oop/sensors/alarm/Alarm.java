@@ -39,4 +39,8 @@ public class Alarm {
     public void trigger() {
         alarmState.trigger();
     }
+
+    public boolean ignoreEvent() {
+        return alarmState instanceof AlarmStateAlert;
+    }
 }

@@ -22,7 +22,7 @@ public class AlarmStateActivated extends AlarmState {
             state = new AlarmStateDeactivated(alarm, code, sender);
         } else {
             state = new AlarmStateAlert(alarm, code, sender);
-            sendMessage();
+            sender.sendMessage();
         }
         alarm.setAlarmState(state);
     }
@@ -31,6 +31,6 @@ public class AlarmStateActivated extends AlarmState {
     public void trigger() {
         AlarmState state = new AlarmStateAlert(alarm, code, sender);
         alarm.setAlarmState(state);
-        sendMessage();
+        sender.sendMessage();
     }
 }

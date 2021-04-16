@@ -28,7 +28,7 @@ public class AlarmSensorEventDecorator implements SensorEventHandler {
     public void handleEvent(SensorEvent event) {
         beforeHandleEvent(event);
         if (!isAlarmAction(event)) {
-            if (!ignoreEvent(alarm.getAlarmState())) {
+            if (!ignoreEvent(alarm)) {
                 eventHandler.handleEvent(event); // и только потом включить режим тревоги
             }
             alarm.trigger();
@@ -43,8 +43,8 @@ public class AlarmSensorEventDecorator implements SensorEventHandler {
         return event.getType() == ALARM_ACTIVATE || event.getType() == ALARM_DEACTIVATE;
     }
 
-    private boolean ignoreEvent(AlarmState state) {
-        return state instanceof AlarmStateAlert;
+    private boolean ignoreEvent(Alarm alarm) {
+        return alarm.ignoreEvent();
     }
 
     private void activateDeactivate(SensorEvent event) {

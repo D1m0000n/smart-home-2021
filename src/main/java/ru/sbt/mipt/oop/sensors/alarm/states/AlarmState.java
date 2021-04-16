@@ -35,8 +35,4 @@ public abstract class AlarmState {
     public abstract void deactivate(String code);
 
     public abstract void trigger();
-
-    public void sendMessage() {
-        sender.sendMessage();
-    }
 }

@@ -2,8 +2,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.sbt.mipt.oop.Door;
 import ru.sbt.mipt.oop.SmartHome;
-import ru.sbt.mipt.oop.handlers.GeneralSensorEventHandler;
-import ru.sbt.mipt.oop.handlers.SensorEventHandler;
+import ru.sbt.mipt.oop.handlers.*;
 import ru.sbt.mipt.oop.handlers.decorators.AlarmSensorEventDecorator;
 import ru.sbt.mipt.oop.readers.JSONSmartHomeReader;
 import ru.sbt.mipt.oop.readers.SmartHomeReader;
@@ -16,6 +15,8 @@ import ru.sbt.mipt.oop.sensors.alarm.states.AlarmState;
 import ru.sbt.mipt.oop.sensors.alarm.states.AlarmStateActivated;
 import ru.sbt.mipt.oop.sensors.alarm.states.AlarmStateAlert;
 import ru.sbt.mipt.oop.sensors.alarm.states.AlarmStateDeactivated;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -35,7 +36,14 @@ public class AlarmWorkTest {
         // setup
         SensorEvent alarmActivationSensorEvent = new AlarmSensorEvent(SensorEventType.ALARM_ACTIVATE, "123");
         // execution
-        AlarmSensorEventDecorator eventHandler = new AlarmSensorEventDecorator(smartHome, new GeneralSensorEventHandler(smartHome));
+        AlarmSensorEventDecorator eventHandler = new AlarmSensorEventDecorator(
+                smartHome,
+                new GeneralSensorEventHandler(
+                        smartHome,
+                        Arrays.asList(
+                                new LightSensorEventHandler(smartHome),
+                                new DoorSensorEventHandler(smartHome),
+                                new HallDoorSensorEventHandler(smartHome))));
         eventHandler.handleEvent(alarmActivationSensorEvent);
         // validation
         Alarm alarm =  eventHandler.alarm;
@@ -56,7 +64,14 @@ public class AlarmWorkTest {
         // setup
         SensorEvent alarmActivationSensorEvent = new AlarmSensorEvent(SensorEventType.ALARM_ACTIVATE, "123");
         // execution
-        AlarmSensorEventDecorator eventHandler = new AlarmSensorEventDecorator(smartHome, new GeneralSensorEventHandler(smartHome));
+        AlarmSensorEventDecorator eventHandler = new AlarmSensorEventDecorator(
+                smartHome,
+                new GeneralSensorEventHandler(
+                        smartHome,
+                        Arrays.asList(
+                                new LightSensorEventHandler(smartHome),
+                                new DoorSensorEventHandler(smartHome),
+                                new HallDoorSensorEventHandler(smartHome))));
         eventHandler.handleEvent(alarmActivationSensorEvent);
         Alarm alarm = eventHandler.alarm;
 

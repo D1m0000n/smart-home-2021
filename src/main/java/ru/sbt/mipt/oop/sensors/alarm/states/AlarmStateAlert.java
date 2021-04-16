@@ -29,7 +29,7 @@ public class AlarmStateAlert extends AlarmState {
 
     @Override
     public void trigger() {
-        sendMessage();
+        sender.sendMessage();
         flashingLight();
     }
 

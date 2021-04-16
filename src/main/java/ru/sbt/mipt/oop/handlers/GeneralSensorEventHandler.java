@@ -5,33 +5,23 @@ import ru.sbt.mipt.oop.sensors.SensorEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 public class GeneralSensorEventHandler implements SensorEventHandler {
     private final SmartHome smartHome;
-    private List<SensorEventHandler> handlers;
-
-//    public SensorEvent getEvent() {
-//        return event;
-//    }
+    private final List<SensorEventHandler> handlers;
 
     public SmartHome getSmartHome() {
         return smartHome;
     }
 
-    public GeneralSensorEventHandler(SmartHome smartHome) {
+    public GeneralSensorEventHandler(SmartHome smartHome, List<SensorEventHandler> handlers) {
         this.smartHome = smartHome;
-        setUpHandlers();
+        this.handlers = handlers;
     }
 
     @Override
     public void handleEvent(SensorEvent event) {
         handlers.forEach(sensorEventHandler -> sensorEventHandler.handleEvent(event));
-    }
-
-    private void setUpHandlers() {
-        handlers = new ArrayList<>();
-        handlers.add(new LightSensorEventHandler(smartHome));
-        handlers.add(new DoorSensorEventHandler(smartHome));
-        handlers.add(new HallDoorSensorEventHandler(smartHome));
     }
 }
