@@ -8,23 +8,23 @@ import java.util.Objects;
 
 public class AlarmStateDeactivated extends AlarmState {
 
-    public AlarmStateDeactivated(Alarm alarm, String code, MessageSender sender) {
-        super(alarm, code, sender);
+    public AlarmStateDeactivated(SmartHome smartHome, String code, MessageSender sender) {
+        super(smartHome, code, sender);
     }
 
     @Override
-    public void activate(String code) {
-        AlarmState alarmState = new AlarmStateActivated(alarm, code, sender);
-        alarm.setAlarmState(alarmState);
+    public AlarmState activate(String code) {
+        return new AlarmStateActivated(smartHome, code, sender);
     }
 
     @Override
-    public void deactivate(String code) {
+    public AlarmState deactivate(String code) {
         throw new RuntimeException("Can't deactivate deactivated alarm");
     }
 
     @Override
-    public void trigger() {
+    public AlarmState trigger() {
         // ничего не делаем, потому что сигнализация выключена
+        return this;
     }
 }

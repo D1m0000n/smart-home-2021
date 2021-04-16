@@ -47,7 +47,7 @@ public class AlarmWorkTest {
         eventHandler.handleEvent(alarmActivationSensorEvent);
         // validation
         Alarm alarm =  eventHandler.alarm;
-        assertEquals(alarm.getAlarmState(), new AlarmStateActivated(alarm, "123", new SMSMessageSender()));
+        assertEquals(alarm.getAlarmState(), new AlarmStateActivated(smartHome, "123", new SMSMessageSender()));
 
         // выключим сигнализацию обратно
 
@@ -56,7 +56,7 @@ public class AlarmWorkTest {
         // execution
         eventHandler.handleEvent(alarmDeactivationSensorEvent);
         // validation
-        assertEquals(alarm.getAlarmState(), new AlarmStateDeactivated(alarm, "123", new SMSMessageSender()));
+        assertEquals(alarm.getAlarmState(), new AlarmStateDeactivated(smartHome, "123", new SMSMessageSender()));
     }
 
     @Test
@@ -76,7 +76,7 @@ public class AlarmWorkTest {
         Alarm alarm = eventHandler.alarm;
 
         // validation (включили сигнализацию)
-        assertEquals(alarm.getAlarmState(), new AlarmStateActivated(alarm, "123", new SMSMessageSender()));
+        assertEquals(alarm.getAlarmState(), new AlarmStateActivated(smartHome, "123", new SMSMessageSender()));
 
         // setup
         SensorEvent doorOpenSwitch = new SensorEvent(SensorEventType.DOOR_OPEN, "1");
@@ -89,7 +89,7 @@ public class AlarmWorkTest {
         // дверь открыта
         assertTrue(door.isOpen());
         // сигнализация в состоянии тревоги
-        assertEquals(alarm.getAlarmState(), new AlarmStateAlert(alarm, "123", new SMSMessageSender()));
+        assertEquals(alarm.getAlarmState(), new AlarmStateAlert(smartHome, "123", new SMSMessageSender()));
 
         // setup
         SensorEvent doorCloseSwitch = new SensorEvent(SensorEventType.DOOR_CLOSED, "1");
@@ -106,6 +106,6 @@ public class AlarmWorkTest {
         // execution
         eventHandler.handleEvent(alarmDeactivationSensorEvent);
         // validation
-        assertEquals(alarm.getAlarmState(), new AlarmStateDeactivated(alarm, "123", new SMSMessageSender()));
+        assertEquals(alarm.getAlarmState(), new AlarmStateDeactivated(smartHome, "123", new SMSMessageSender()));
     }
 }

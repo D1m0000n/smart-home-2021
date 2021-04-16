@@ -16,10 +16,10 @@ public class Alarm {
 
     public Alarm(SmartHome smartHome, MessageSender sender) {
         this.smartHome = smartHome;
-        alarmState = new AlarmStateDeactivated( this, "", sender);
+        alarmState = new AlarmStateDeactivated( smartHome, "", sender);
     }
 
-    public void setAlarmState(AlarmState state) {
+    private void setAlarmState(AlarmState state) {
         alarmState = state;
     }
 
@@ -29,15 +29,15 @@ public class Alarm {
 
 
     public void activate(String code) {
-        alarmState.activate(code);
+        setAlarmState(alarmState.activate(code));
     }
 
     public void deactivate(String code) {
-        alarmState.deactivate(code);
+        setAlarmState(alarmState.deactivate(code));
     }
 
     public void trigger() {
-        alarmState.trigger();
+        setAlarmState(alarmState.trigger());
     }
 
     public boolean ignoreEvent() {

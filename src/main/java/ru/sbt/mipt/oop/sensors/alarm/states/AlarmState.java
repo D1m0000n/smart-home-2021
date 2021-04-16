@@ -7,17 +7,17 @@ import ru.sbt.mipt.oop.sensors.alarm.Alarm;
 import java.util.Objects;
 
 public abstract class AlarmState {
-    Alarm alarm;
-    public AlarmState(Alarm alarm, String code, MessageSender sender) {
-        this.alarm = alarm;
-        this.code = code;
-        this.sender = sender;
-    }
 
     public final String code;
     public final MessageSender sender;
+    public final SmartHome smartHome;
 
-    public abstract void activate(String code);
+    public AlarmState(SmartHome smartHome, String code, MessageSender sender) {
+        this.code = code;
+        this.sender = sender;
+        this.smartHome = smartHome;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -32,7 +32,9 @@ public abstract class AlarmState {
         return Objects.hash(code);
     }
 
-    public abstract void deactivate(String code);
+    public abstract AlarmState activate(String code);
 
-    public abstract void trigger();
+    public abstract AlarmState deactivate(String code);
+
+    public abstract AlarmState trigger();
 }
