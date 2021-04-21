@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Handler;
 
-public class GeneralSensorEventHandler implements SensorEventHandler {
+public class CompositeSensorEventHandler implements SensorEventHandler {
     private final SmartHome smartHome;
     private final List<SensorEventHandler> handlers;
 
@@ -15,7 +15,7 @@ public class GeneralSensorEventHandler implements SensorEventHandler {
         return smartHome;
     }
 
-    public GeneralSensorEventHandler(SmartHome smartHome, List<SensorEventHandler> handlers) {
+    public CompositeSensorEventHandler(SmartHome smartHome, List<SensorEventHandler> handlers) {
         this.smartHome = smartHome;
         this.handlers = handlers;
     }

@@ -6,12 +6,12 @@ import ru.sbt.mipt.oop.handlers.*;
 import ru.sbt.mipt.oop.handlers.decorators.AlarmSensorEventDecorator;
 import ru.sbt.mipt.oop.readers.JSONSmartHomeReader;
 import ru.sbt.mipt.oop.readers.SmartHomeReader;
+import ru.sbt.mipt.oop.senders.MessageSender;
 import ru.sbt.mipt.oop.senders.SMSMessageSender;
 import ru.sbt.mipt.oop.sensors.SensorEvent;
 import ru.sbt.mipt.oop.sensors.SensorEventType;
 import ru.sbt.mipt.oop.sensors.alarm.Alarm;
 import ru.sbt.mipt.oop.sensors.alarm.AlarmSensorEvent;
-import ru.sbt.mipt.oop.sensors.alarm.states.AlarmState;
 import ru.sbt.mipt.oop.sensors.alarm.states.AlarmStateActivated;
 import ru.sbt.mipt.oop.sensors.alarm.states.AlarmStateAlert;
 import ru.sbt.mipt.oop.sensors.alarm.states.AlarmStateDeactivated;
@@ -35,15 +35,16 @@ public class AlarmWorkTest {
     public void alarmEnableWork() {
         // setup
         SensorEvent alarmActivationSensorEvent = new AlarmSensorEvent(SensorEventType.ALARM_ACTIVATE, "123");
+        MessageSender sender = new SMSMessageSender();
         // execution
         AlarmSensorEventDecorator eventHandler = new AlarmSensorEventDecorator(
-                smartHome,
-                new GeneralSensorEventHandler(
+                new CompositeSensorEventHandler(
                         smartHome,
                         Arrays.asList(
                                 new LightSensorEventHandler(smartHome),
                                 new DoorSensorEventHandler(smartHome),
-                                new HallDoorSensorEventHandler(smartHome))));
+                                new HallDoorSensorEventHandler(smartHome))),
+                new Alarm(smartHome, sender));
         eventHandler.handleEvent(alarmActivationSensorEvent);
         // validation
         Alarm alarm =  eventHandler.alarm;
@@ -63,15 +64,16 @@ public class AlarmWorkTest {
     public void triggerAlarmAndIgnoreEventTest() {
         // setup
         SensorEvent alarmActivationSensorEvent = new AlarmSensorEvent(SensorEventType.ALARM_ACTIVATE, "123");
+        MessageSender sender = new SMSMessageSender();
         // execution
         AlarmSensorEventDecorator eventHandler = new AlarmSensorEventDecorator(
-                smartHome,
-                new GeneralSensorEventHandler(
+                new CompositeSensorEventHandler(
                         smartHome,
                         Arrays.asList(
                                 new LightSensorEventHandler(smartHome),
                                 new DoorSensorEventHandler(smartHome),
-                                new HallDoorSensorEventHandler(smartHome))));
+                                new HallDoorSensorEventHandler(smartHome))),
+                new Alarm(smartHome, sender));
         eventHandler.handleEvent(alarmActivationSensorEvent);
         Alarm alarm = eventHandler.alarm;
 

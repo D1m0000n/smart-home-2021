@@ -40,7 +40,7 @@ public class Alarm {
         setAlarmState(alarmState.trigger());
     }
 
-    public boolean ignoreEvent() {
+    public boolean isAlerted() {
         return alarmState instanceof AlarmStateAlert;
     }
 }
