@@ -1,20 +1,12 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.sbt.mipt.oop.*;
-import ru.sbt.mipt.oop.handlers.GeneralSensorEventHandler;
-import ru.sbt.mipt.oop.handlers.SensorEventHandler;
-import ru.sbt.mipt.oop.handlers.decorators.AlarmSensorEventDecorator;
 import ru.sbt.mipt.oop.readers.JSONSmartHomeReader;
 import ru.sbt.mipt.oop.readers.SmartHomeReader;
 import ru.sbt.mipt.oop.remoteControllers.RemoteController;
 import ru.sbt.mipt.oop.remoteControllers.commands.*;
-import ru.sbt.mipt.oop.sensors.SensorEvent;
-import ru.sbt.mipt.oop.sensors.SensorEventType;
-import ru.sbt.mipt.oop.sensors.alarm.AlarmSensorEvent;
 import ru.sbt.mipt.oop.sensors.alarm.states.AlarmStateActivated;
 import ru.sbt.mipt.oop.sensors.alarm.states.AlarmStateAlert;
-import ru.sbt.mipt.oop.sensors.alarm.states.AlarmStateDeactivated;
 
 import java.util.Arrays;
 import java.util.List;
@@ -87,7 +79,7 @@ public class RemoteControllerWorkTest {
         remoteController = new RemoteController();
         remoteController.bindButton("A", new TurnOnAllLightCommand(smartHome));
         remoteController.bindButton("B", new CloseHallDoorCommand(smartHome, "4"));
-        remoteController.bindButton("C", new TurnOnHallLight(smartHome));
+        remoteController.bindButton("C", new TurnOnHallLightCommand(smartHome));
         remoteController.bindButton("D", new ActivateAlarmCommand(smartHome));
         remoteController.bindButton("1", new AlertAlarmCommand(smartHome));
         remoteController.bindButton("2", new TurnOffAllLightCommand(smartHome));

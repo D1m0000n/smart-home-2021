@@ -2,11 +2,12 @@ package ru.sbt.mipt.oop.remoteControllers.commands;
 
 import ru.sbt.mipt.oop.SmartHome;
 
-public class AlertAlarmCommand extends Command {
+public class AlertAlarmCommand implements Command {
+    private final SmartHome smartHome;
     private final String defaultActivationCode = "123";
 
     public AlertAlarmCommand(SmartHome smartHome) {
-        super(smartHome);
+        this.smartHome = smartHome;
     }
 
     @Override

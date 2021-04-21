@@ -2,9 +2,11 @@ package ru.sbt.mipt.oop.remoteControllers.commands;
 
 import ru.sbt.mipt.oop.*;
 
-public class TurnOnHallLight extends Command {
-    public TurnOnHallLight(SmartHome smartHome) {
-        super(smartHome);
+public class TurnOnHallLightCommand implements Command {
+    private final SmartHome smartHome;
+
+    public TurnOnHallLightCommand(SmartHome smartHome) {
+        this.smartHome = smartHome;
     }
 
     @Override

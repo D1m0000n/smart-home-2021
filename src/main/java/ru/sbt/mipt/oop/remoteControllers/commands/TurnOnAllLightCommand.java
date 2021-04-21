@@ -5,10 +5,11 @@ import ru.sbt.mipt.oop.EventProcessor;
 import ru.sbt.mipt.oop.Light;
 import ru.sbt.mipt.oop.SmartHome;
 
-public class TurnOnAllLightCommand extends Command {
+public class TurnOnAllLightCommand implements Command {
+    private final SmartHome smartHome;
 
     public TurnOnAllLightCommand(SmartHome smartHome) {
-        super(smartHome);
+        this.smartHome = smartHome;
     }
 
     @Override

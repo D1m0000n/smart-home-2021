@@ -4,10 +4,11 @@ import ru.sbt.mipt.oop.Action;
 import ru.sbt.mipt.oop.Light;
 import ru.sbt.mipt.oop.SmartHome;
 
-public class TurnOffAllLightCommand extends Command {
+public class TurnOffAllLightCommand implements Command {
+    private final SmartHome smartHome;
 
     public TurnOffAllLightCommand(SmartHome smartHome) {
-        super(smartHome);
+        this.smartHome = smartHome;
     }
 
     @Override

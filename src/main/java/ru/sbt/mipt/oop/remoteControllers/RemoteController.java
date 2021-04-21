@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RemoteController implements RemoteControl {
-    private Map<String, Command> codeToCommand = new HashMap<>();
+    private final Map<String, Command> codeToCommand = new HashMap<>();
 
     @Override
     public void onButtonPressed(String buttonCode, String rcId) {
@@ -15,7 +15,9 @@ public class RemoteController implements RemoteControl {
         // because we dont have library remote control register let suggest
         // that we implement only one remote
         Command command = codeToCommand.get(buttonCode);
-        command.doCommand();
+        if (command != null) {
+            command.doCommand();
+        }
     }
 
     public void bindButton(String code, Command command) {
