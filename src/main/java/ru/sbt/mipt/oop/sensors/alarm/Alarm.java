@@ -23,11 +23,6 @@ public class Alarm {
         alarmState = state;
     }
 
-    public AlarmState getAlarmState() {
-        return alarmState;
-    }
-
-
     public void activate(String code) {
         setAlarmState(alarmState.activate(code));
     }
