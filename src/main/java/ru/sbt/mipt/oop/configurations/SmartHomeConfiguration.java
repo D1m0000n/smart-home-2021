@@ -3,11 +3,15 @@ package ru.sbt.mipt.oop.configurations;
 import com.coolcompany.smarthome.events.SensorEventsManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import rc.RemoteControl;
+import rc.RemoteControlRegistry;
 import ru.sbt.mipt.oop.EventProcessor;
 import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.adapters.SmartHomeAdapter;
 import ru.sbt.mipt.oop.readers.JSONSmartHomeReader;
 import ru.sbt.mipt.oop.readers.SmartHomeReader;
+import ru.sbt.mipt.oop.remoteControllers.RemoteController;
+import ru.sbt.mipt.oop.remoteControllers.commands.*;
 import ru.sbt.mipt.oop.sensors.SensorEventType;
 
 import java.util.HashMap;
@@ -55,5 +59,49 @@ public class SmartHomeConfiguration {
         SensorEventsManager eventsManager = new SensorEventsManager();
         eventsManager.registerEventHandler(adapter());
         return eventsManager;
+    }
+
+    @Bean
+    RemoteControl remoteControl() {
+        RemoteControl remoteControl = new RemoteController();
+        // here we can bind buttons
+        return remoteControl;
+    }
+
+    @Bean
+    RemoteControlRegistry remoteControlRegistry() {
+        RemoteControlRegistry remoteControlRegistry = new RemoteControlRegistry();
+        remoteControlRegistry.registerRemoteControl(remoteControl(), "");
+        return remoteControlRegistry;
+    }
+
+    @Bean
+    Command activateAlarmCommand() {
+        return new ActivateAlarmCommand(smartHome());
+    }
+
+    @Bean
+    Command alertAlarmCommand() {
+        return new AlertAlarmCommand(smartHome());
+    }
+
+    @Bean
+    Command closeHallDoorCommand() {
+        return new CloseHallDoorCommand(smartHome(), "4");
+    }
+
+    @Bean
+    Command turnOffAllLightCommand() {
+        return new TurnOffAllLightCommand(smartHome());
+    }
+
+    @Bean
+    Command turnOnAllLightCommand() {
+        return new TurnOnAllLightCommand(smartHome());
+    }
+
+    @Bean
+    Command turnOnLightCommand() {
+        return new TurnOnHallLightCommand(smartHome());
     }
 }
