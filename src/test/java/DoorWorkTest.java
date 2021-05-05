@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ru.sbt.mipt.oop.*;
+import ru.sbt.mipt.oop.Action;
+import ru.sbt.mipt.oop.Door;
+import ru.sbt.mipt.oop.HomeComponent;
+import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.handlers.DoorSensorEventHandler;
 import ru.sbt.mipt.oop.handlers.SensorEventHandler;
 import ru.sbt.mipt.oop.readers.JSONSmartHomeReader;
@@ -66,8 +69,8 @@ public class DoorWorkTest {
     @Test
     public void doorSwitchWork() {
         SensorEvent doorSwitch = new SensorEvent(SensorEventType.DOOR_CLOSED, "3");
-        SensorEventHandler eventHandler = new DoorSensorEventHandler(smartHome, doorSwitch);
-        eventHandler.handleEvent();
+        SensorEventHandler eventHandler = new DoorSensorEventHandler(smartHome);
+        eventHandler.handleEvent(doorSwitch);
 
         DoorFinder doorFinder = new DoorFinder("3");
         smartHome.doAction(doorFinder);
@@ -77,7 +80,7 @@ public class DoorWorkTest {
 
         // возвращаем дверь в исходное состояние
         SensorEvent doorSwitchBack = new SensorEvent(SensorEventType.DOOR_OPEN, "3");
-        eventHandler = new DoorSensorEventHandler(smartHome, doorSwitchBack);
-        eventHandler.handleEvent();
+        eventHandler = new DoorSensorEventHandler(smartHome);
+        eventHandler.handleEvent(doorSwitchBack);
     }
 }

@@ -1,15 +1,22 @@
 package ru.sbt.mipt.oop;
 
+import ru.sbt.mipt.oop.handlers.*;
+import ru.sbt.mipt.oop.handlers.decorators.AlarmSensorEventDecorator;
+import ru.sbt.mipt.oop.sensors.SensorEvent;
+
+import java.util.Arrays;
+
 public class EventProcessor {
     public final SmartHome smartHome;
-    private final List<SensorEventHandler> handlers;
+    public final SensorEventHandler sensorEventHandler;
 
-    public EventProcessor(SmartHome smartHome, List<SensorEventHandler> handlers) {
+    public EventProcessor(SmartHome smartHome, SensorEventHandler sensorEventHandler) {
         this.smartHome = smartHome;
-        this.handlers = handlers;
+        this.sensorEventHandler = sensorEventHandler;
     }
 
     public void processEvent(SensorEvent event) {
         System.out.println("Got event: " + event);
+        sensorEventHandler.handleEvent(event);
     }
 }

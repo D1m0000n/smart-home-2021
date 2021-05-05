@@ -19,7 +19,7 @@ public class HallDoorSensorEventHandler implements SensorEventHandler {
     }
 
     @Override
-    public void handleEvent() {
+    public void handleEvent(SensorEvent event) {
 
         // Интересует только случай закрывания двери в холле
         if (event.getType() != DOOR_CLOSED) {
@@ -48,6 +48,8 @@ public class HallDoorSensorEventHandler implements SensorEventHandler {
             if (o instanceof Room) {
                 Room room = (Room) o;
                 if (room.getName().equals("hall")) {
+                    smartHome.doAction(checkDoorId);
+
                     room.doAction(checkDoorId);
                 }
             }

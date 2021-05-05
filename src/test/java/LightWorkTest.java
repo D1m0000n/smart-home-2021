@@ -1,11 +1,9 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import ru.sbt.mipt.oop.*;
+import ru.sbt.mipt.oop.Action;
+import ru.sbt.mipt.oop.HomeComponent;
+import ru.sbt.mipt.oop.Light;
+import ru.sbt.mipt.oop.SmartHome;
 import ru.sbt.mipt.oop.handlers.LightSensorEventHandler;
 import ru.sbt.mipt.oop.handlers.SensorEventHandler;
 import ru.sbt.mipt.oop.readers.JSONSmartHomeReader;
@@ -13,7 +11,8 @@ import ru.sbt.mipt.oop.readers.SmartHomeReader;
 import ru.sbt.mipt.oop.sensors.SensorEvent;
 import ru.sbt.mipt.oop.sensors.SensorEventType;
 
-import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LightWorkTest {
 
@@ -68,8 +67,8 @@ public class LightWorkTest {
     @Test
     public void lightSwitchWork() {
         SensorEvent lightSwitch = new SensorEvent(SensorEventType.LIGHT_OFF, "3");
-        SensorEventHandler eventHandler = new LightSensorEventHandler(smartHome, lightSwitch);
-        eventHandler.handleEvent();
+        SensorEventHandler eventHandler = new LightSensorEventHandler(smartHome);
+        eventHandler.handleEvent(lightSwitch);
 
         LightFinder lightFinder = new LightFinder("3");
         smartHome.doAction(lightFinder);
