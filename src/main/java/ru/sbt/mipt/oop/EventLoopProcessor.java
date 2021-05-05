@@ -7,7 +7,6 @@ public class EventLoopProcessor {
     private final SensorEventCreator sensorEventCreator;
     private final EventProcessor eventProcessor;
 
-    public EventLoopProcessor(SensorEventCreator sensorEventCreator, EventProcessor eventProcessor) {
         this.sensorEventCreator = sensorEventCreator;
         this.eventProcessor = eventProcessor;
     }
