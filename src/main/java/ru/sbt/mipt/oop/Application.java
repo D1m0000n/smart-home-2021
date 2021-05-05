@@ -19,15 +19,6 @@ public class Application {
         SmartHomeReader reader = new JSONSmartHomeReader(filename);
         SmartHome smartHome = reader.readSmartHome();
         // начинаем цикл обработки событий
-        List<SensorEventHandler> handlers =  Arrays.asList(
-                new LightSensorEventHandler(smartHome),
-                new DoorSensorEventHandler(smartHome),
-                new HallDoorSensorEventHandler(smartHome)
-        );
-
-        EventProcessor eventProcessor = new EventProcessor(smartHome, handlers);
-
-        EventLoopProcessor eventLoopProcessor = new EventLoopProcessor(smartHome, new SensorEventCreatorImpl(), eventProcessor);
         eventLoopProcessor.loopEvents();
     }
 }
