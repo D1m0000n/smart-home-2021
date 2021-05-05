@@ -1,5 +1,6 @@
 package ru.sbt.mipt.oop;
 
+
 import ru.sbt.mipt.oop.handlers.*;
 import ru.sbt.mipt.oop.handlers.decorators.AlarmSensorEventDecorator;
 import ru.sbt.mipt.oop.readers.JSONSmartHomeReader;
@@ -11,6 +12,9 @@ import ru.sbt.mipt.oop.sensors.alarm.Alarm;
 
 import java.util.Arrays;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Application {
 
     public static void main(String... args) {
@@ -19,6 +23,7 @@ public class Application {
         SmartHomeReader reader = new JSONSmartHomeReader(filename);
         SmartHome smartHome = reader.readSmartHome();
         // начинаем цикл обработки событий
+
         MessageSender sender = new SMSMessageSender();
         SensorEventHandler sensorEventHandler = new AlarmSensorEventDecorator(
                 new CompositeSensorEventHandler(
