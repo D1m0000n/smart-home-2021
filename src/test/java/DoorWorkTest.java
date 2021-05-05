@@ -69,8 +69,8 @@ public class DoorWorkTest {
     @Test
     public void doorSwitchWork() {
         SensorEvent doorSwitch = new SensorEvent(SensorEventType.DOOR_CLOSED, "3");
-        SensorEventHandler eventHandler = new DoorSensorEventHandler(smartHome, doorSwitch);
-        eventHandler.handleEvent();
+        SensorEventHandler eventHandler = new DoorSensorEventHandler(smartHome);
+        eventHandler.handleEvent(doorSwitch);
 
         DoorFinder doorFinder = new DoorFinder("3");
         smartHome.doAction(doorFinder);
@@ -80,7 +80,7 @@ public class DoorWorkTest {
 
         // возвращаем дверь в исходное состояние
         SensorEvent doorSwitchBack = new SensorEvent(SensorEventType.DOOR_OPEN, "3");
-        eventHandler = new DoorSensorEventHandler(smartHome, doorSwitchBack);
-        eventHandler.handleEvent();
+        eventHandler = new DoorSensorEventHandler(smartHome);
+        eventHandler.handleEvent(doorSwitchBack);
     }
 }

@@ -1,35 +1,36 @@
 package ru.sbt.mipt.oop.sensors.alarm.states;
 
 import ru.sbt.mipt.oop.SmartHome;
+import ru.sbt.mipt.oop.senders.MessageSender;
+import ru.sbt.mipt.oop.sensors.alarm.Alarm;
 
 public class AlarmStateActivated extends AlarmState {
 
-    public AlarmStateActivated(SmartHome smartHome, String code) {
-        super(smartHome, code);
-        this.ignoreEvent = false;
+    public AlarmStateActivated(SmartHome smartHome, String code, MessageSender sender) {
+        super(smartHome, code, sender);
     }
 
     @Override
-    public void activate(String code) {
+    public AlarmState activate(String code) {
         throw new RuntimeException("Can't activate activated alarm");
     }
 
     @Override
-    public void deactivate(String code) {
+    public AlarmState deactivate(String code) {
         AlarmState state;
         if (this.code.equals(code)) {
-            state = new AlarmStateDeactivated(smartHome, code);
+            state = new AlarmStateDeactivated(smartHome, code, sender);
         } else {
-            state = new AlarmStateAlert(smartHome, code);
-            sendSMS();
+            state = new AlarmStateAlert(smartHome, code, sender);
+            sender.sendMessage();
         }
-        smartHome.setState(state);
+        return state;
     }
 
     @Override
-    public void trigger() {
-        AlarmState state = new AlarmStateAlert(smartHome, code);
-        smartHome.setState(state);
-        sendSMS();
+    public AlarmState trigger() {
+        AlarmState state = new AlarmStateAlert(smartHome, code, sender);
+        sender.sendMessage();
+        return state;
     }
 }

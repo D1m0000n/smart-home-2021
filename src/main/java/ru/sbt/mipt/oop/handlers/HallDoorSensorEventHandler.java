@@ -1,22 +1,25 @@
 package ru.sbt.mipt.oop.handlers;
 
-import ru.sbt.mipt.oop.*;
+import ru.sbt.mipt.oop.
+
+import ru.sbt.mipt.oop.sensors.SensorCommand;
 import ru.sbt.mipt.oop.sensors.SensorEvent;
 
-import static ru.sbt.mipt.oop.sensors.SensorEventType.DOOR_CLOSED;
+import java.util.Collection;
 
+import static ru.sbt.mipt.oop.sensors.SensorEventType.DOOR_CLOSED;
+import static ru.sbt.mipt.oop.sensors.SensorEventType.DOOR_OPEN;
 
 public class HallDoorSensorEventHandler implements SensorEventHandler {
-    private final SensorEvent event;
     private final SmartHome smartHome;
 
-    public HallDoorSensorEventHandler(SmartHome smartHome, SensorEvent event) {
-        this.event = event;
+    public HallDoorSensorEventHandler(SmartHome smartHome) {
+
         this.smartHome = smartHome;
     }
 
     @Override
-    public void handleEvent() {
+    public void handleEvent(SensorEvent event) {
 
         // Интересует только случай закрывания двери в холле
         if (event.getType() != DOOR_CLOSED) {
@@ -46,6 +49,8 @@ public class HallDoorSensorEventHandler implements SensorEventHandler {
                 Room room = (Room) o;
                 if (room.getName().equals("hall")) {
                     smartHome.doAction(checkDoorId);
+
+                    room.doAction(checkDoorId);
                 }
             }
         };
